@@ -44,6 +44,7 @@
 #include <depth_image_proc/depth_traits.hpp>
 #include <depth_image_proc/visibility.h>
 #include <memory>
+#include "rclcpp_components/register_node_macro.hpp"
 
 namespace depth_image_proc
 {
@@ -54,7 +55,7 @@ namespace enc = sensor_msgs::image_encodings;
 class RegisterNode : public rclcpp::Node
 {
 public:
-  DEPTH_IMAGE_PROC_PUBLIC RegisterNode();
+  DEPTH_IMAGE_PROC_PUBLIC RegisterNode(const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
 
 private:
   using Image = sensor_msgs::msg::Image;
@@ -93,8 +94,8 @@ private:
   rclcpp::Logger logger_ = rclcpp::get_logger("RegisterNode");
 };
 
-RegisterNode::RegisterNode()
-: Node("RegisterNode")
+RegisterNode::RegisterNode(const rclcpp::NodeOptions & options)
+: Node("RegisterNode", options)
 {
   rclcpp::Clock::SharedPtr clock = this->get_clock();
   tf_buffer_ = std::make_shared<tf2_ros::Buffer>(clock);
